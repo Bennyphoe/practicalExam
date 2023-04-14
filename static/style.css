@@ -1,0 +1,15 @@
+table, th, td {
+    border: 1px black solid;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 3px
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
