@@ -8,20 +8,19 @@ ledPin = 36
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(ledPin, GPIO.OUT)
 
-try:
-    while True:
+# try:
+#     while True:
         
-        print(sensor.read_temperature())
-        GPIO.output(ledPin, True)
+#         print(sensor.read_temperature())
+#         GPIO.output(ledPin, True)
         
-except KeyboardInterrupt:
-    print("Program terminated")
-finally:
-    GPIO.cleanup()
+# except KeyboardInterrupt:
+#     print("Program terminated")
+# finally:
+#     GPIO.cleanup()
 
 def getTemperature():
     temperature = sensor.read_temperature()
-    # convert temperature to whole number
     roundedTemperature = str(math.floor(temperature))
     return {"temp": roundedTemperature}
 
