@@ -12,7 +12,7 @@ localFireAlarm = False
 globalFullFireAlarm = False
 globalFlickFireAlarm = False
 bme280.toggleLed(False)
-predefinedNodes = ['vapaz', 'togez']
+predefinedNodes = ['togez']
 
 def sendCommand(command):
 		
@@ -156,11 +156,12 @@ try:
 		listSensorValues = []
 		if not localFireAlarm and not globalFullFireAlarm and not globalFlickFireAlarm:
 			if (len(predefinedNodes) > 0):
+				# ["vapaz=30-121", "togez=31-121"]
 				listSensorValues = sendCommandToNodes()
-					
 			# together with sensor values we also have to persist data coming from rpi
-			fogReadings = bme280.getTemperatureAndLightLevel()
-			listSensorValues.append("{}={}-{}".format(fogName, fogReadings["temp"], fogReadings["lightLevel"]))
+			fogReadings = bme280.getTemperature()
+			# REMOVE the placeholder light level
+			listSensorValues.append("{}={}-{}".format(fogName, fogReadings["temp"], 0.5))
 
 			for sensorValue in listSensorValues:
 				print(sensorValue)      

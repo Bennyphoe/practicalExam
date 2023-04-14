@@ -193,6 +193,14 @@ function getLightLevel() {
     return input.lightLevel()
 }
 
+function getUltrasonicDistance() {
+    return grove.measureInCentimeters(DigitalPin.P0)
+}
+
+function getLightLevelGrove() {
+    return pins.analogReadPin(AnalogPin.P1)
+}
+
 
 basic.forever(function () {
     if (fullFireAlarm) {

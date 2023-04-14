@@ -1,42 +1,39 @@
 from Adafruit_BME280 import *
-from gpiozero import MCP3008
-from gpiozero import PWMLED
 import RPi.GPIO as GPIO
-import sqlite3
 import math
 
 sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
-pot = MCP3008(0)
-led = PWMLED(21)
-# try:
-#     while True:
-#         
-#         print(sensor.read_temperature())
-#         print(pot.value)
-#         print(led.value)
-#         
-# except KeyboardInterrupt:
-#     print("Program terminated")
-# finally:
-#     GPIO.cleanup()
+ledPin = 36
+#Pin setup
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(ledPin, GPIO.OUT)
 
-def getTemperatureAndLightLevel():
+try:
+    while True:
+        
+        print(sensor.read_temperature())
+        GPIO.output(ledPin, True)
+        
+except KeyboardInterrupt:
+    print("Program terminated")
+finally:
+    GPIO.cleanup()
+
+def getTemperature():
     temperature = sensor.read_temperature()
     # convert temperature to whole number
     roundedTemperature = str(math.floor(temperature))
-    lightLevel = pot.value
-    roundedLightLevel = str(round(lightLevel, 3))
-    return {"temp": roundedTemperature, "lightLevel": roundedLightLevel}
+    return {"temp": roundedTemperature}
 
 def toggleLed(toggle):
     if toggle:
-        led.value = 1
+        GPIO.output(ledPin, True)
     else:
-        led.value = 0
+        GPIO.output(ledPin, False)
 
 
 def flickerLed():
-    led.value = 1
+    GPIO.output(ledPin, True)
     time.sleep(1)
-    led.value = 0
+    GPIO.output(ledPin, False)
     time.sleep(1)
